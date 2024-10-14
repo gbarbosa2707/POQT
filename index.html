@@ -1,0 +1,591 @@
+<!DOCTYPE html><html><head><base href="https://poqt-finance.br/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>POQT - Seu Assistente Financeiro via WhatsApp</title>
+<style>
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --header-bg: #ffffff;
+    --header-text: #333333;
+    --nav-bg: #f0f0f0;
+    --nav-text: #333333;
+    --accent-color: #4CAF50;
+    --btn-bg: #4CAF50;
+    --btn-text: #ffffff;
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  header {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  header h1 {
+    font-size: 2.5rem;
+  }
+
+  header p {
+    font-size: 1.2rem;
+  }
+
+  nav {
+    background-color: var(--nav-bg);
+  }
+
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  nav ul li {
+    padding: 1rem;
+  }
+
+  nav ul li a {
+    color: var(--nav-text);
+    text-decoration: none;
+  }
+
+  section {
+    padding: 4rem 0;
+  }
+
+  h1, h2 {
+    color: var(--accent-color);
+  }
+
+  .btn {
+    display: inline-block;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #45a049;
+  }
+
+  /* Dark mode toggle button */
+  #darkModeToggle {
+    background-color: var(--nav-bg);
+    border: none;
+    color: var(--nav-text);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  #darkModeToggle:hover {
+    background-color: var(--accent-color);
+    color: var(--btn-text);
+  }
+
+  /* Dark mode styles */
+  body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --header-bg: #2a2a2a;
+    --header-text: #ffffff;
+    --nav-bg: #333333;
+    --nav-text: #ffffff;
+    --accent-color: #6abf6e;
+    --btn-bg: #6abf6e;
+    --btn-text: #ffffff;
+  }
+
+  /* Rest of the styles remain the same */
+  .float-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--bg-color);
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: none;
+  }
+  #closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .faq-item {
+    margin-bottom: 1rem;
+  }
+  .faq-question {
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .faq-answer {
+    display: none;
+    padding-left: 1rem;
+  }
+  .faq-item.open .faq-answer {
+    display: block;
+  }
+  .plans-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+  .plan-card {
+    flex: 0 1 300px;
+    background-color: var(--bg-color);
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  .plan-name {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+  }
+  .plan-price {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .plan-features {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  .plan-features li {
+    margin-bottom: 10px;
+  }
+  .plan-cta {
+    display: inline-block;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  .plan-cta:hover {
+    background-color: #45a049;
+  }
+  #floatingRegister {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+  }
+  #floatingRegister h3 {
+    margin-top: 0;
+    color: var(--accent-color);
+  }
+  #floatingRegister form {
+    display: flex;
+    flex-direction: column;
+  }
+  #floatingRegister input {
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  #floatingRegister button {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #floatingRegister button:hover {
+    background-color: #45a049;
+  }
+  .feature-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+  }
+  .feature-box {
+    flex-basis: calc(25% - 1rem);
+    background-color: var(--bg-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  .feature-box svg {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+  }
+  .feature-box h3 {
+    color: var(--accent-color);
+    margin-top: 0;
+  }
+  @media (max-width: 1200px) {
+    .feature-box {
+      flex-basis: calc(50% - 1rem);
+      margin-bottom: 2rem;
+    }
+    .feature-boxes {
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 768px) {
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    nav ul li {
+      width: 100%;
+      text-align: center;
+    }
+    
+    .feature-boxes {
+      flex-direction: column;
+    }
+    
+    .feature-box {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    
+    .plans-container {
+      flex-direction: column;
+    }
+    
+    .plan-card {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    
+    body {
+      font-size: 16px;
+    }
+    
+    h1 {
+      font-size: 2rem;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+    
+    #floatingRegister {
+      width: 90%;
+      left: 5%;
+      right: 5%;
+    }
+    
+    .video-container {
+      padding-bottom: 75%; /* Adjust aspect ratio for mobile */
+    }
+  }
+
+  .image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 2rem;
+  }
+
+  .image-gallery img {
+    width: calc(33.33% - 10px);
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  @media (max-width: 768px) {
+    .image-gallery img {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>POQT - Seu Assistente Financeiro via WhatsApp</h1>
+      <p>O POQT é uma ferramenta inovadora de gestão financeira que utiliza Inteligência Artificial (IA) para ajudar a todos a organizar suas finanças pessoais de maneira prática e intuitiva. Integrado com o WhatsApp, o POQT permite que você registre seus gastos e receitas como se estivesse conversando com um amigo.</p>
+      <button id="darkModeToggle">Modo Escuro</button>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#funcionalidades">Funcionalidades</a></li>
+      <li><a href="#como-funciona">Como Funciona</a></li>
+      <li><a href="#planos">Planos</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="funcionalidades">
+      <div class="container">
+        <h2>Funcionalidades do POQT</h2>
+        <div class="feature-boxes">
+          <div class="feature-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+            <h3>Registro de gastos e receitas</h3>
+            <p>Você pode anotar seus gastos e receitas diretamente no WhatsApp, usando texto, fotos ou áudios. Basta enviar uma mensagem ao POQT com a descrição e o valor da transação.</p>
+          </div>
+          <div class="feature-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <h3>Relatórios financeiros</h3>
+            <p>O POQT gera relatórios detalhados que mostram onde você está gastando seu dinheiro. Esses relatórios ajudam você a identificar padrões de consumo e áreas onde é possível economizar.</p>
+          </div>
+          <div class="feature-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <h3>Recomendações de economia</h3>
+            <p>Com base nos seus hábitos financeiros, o POQT oferece dicas personalizadas para ajudá-lo a economizar e investir melhor. Você receberá recomendações de economia e sugestões de investimentos que podem fazer seu dinheiro render mais.</p>
+          </div>
+          <div class="feature-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+              <line x1="7" y1="7" x2="7.01" y2="7"></line>
+            </svg>
+            <h3>Monitoramento de metas</h3>
+            <p>Estabeleça metas financeiras e acompanhe seu progresso. O POQT ajuda você a manter o foco em seus objetivos, seja economizar para uma viagem, pagar dívidas ou investir em seu futuro.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-funciona">
+      <div class="container">
+        <h2>Como Funciona</h2>
+        <div class="video-container">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/jdJL-O21mpY?si=AkYDLo2vx3-gKvrH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
+        </div>
+        <div class="images">
+          <img src="MenuPOQT.jpg" alt="POQT WhatsApp Interface" width="100%" height="auto" title="POQT WhatsApp Interface">
+          <img src="ExtratoDashboard.jpg" alt="POQT Financial Report" width="100%" height="auto">
+          <img src="EditarGasto.jpg" alt="POQT Investment Recommendations" width="100%" height="auto">
+        </div>
+      </div>
+    </section>
+
+    <section id="planos">
+      <div class="container">
+        <h2>Nossos Planos</h2>
+        <div class="plans-container">
+          <div class="plan-card">
+            <h3 class="plan-name">Plano Básico</h3>
+            <div class="plan-price">Grátis</div>
+            <ul class="plan-features">
+              <li>Registro de gastos e receitas via texto, imagem e voz</li>
+              <li>Dicas semanais de economia</li>
+              <li>Um relatório financeiro mensal</li>
+            </ul>
+          </div>
+          <div class="plan-card">
+            <h3 class="plan-name">Plano Premium</h3>
+            <div class="plan-price">Em desenvolvimento</div>
+            <ul class="plan-features">
+              <li>Tudo do Plano Básico</li>
+              <li>Relatório financeiro detalhado e ilimitado</li>
+              <li>Acesso a cursos exclusivos</li>
+              <li>Suporte prioritário</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <h2>Perguntas Frequentes</h2>
+        <div class="faq-item open">
+          <div class="faq-question">Como começar a usar o POQT?</div>
+          <div class="faq-answer" style="display: block;">Para começar a usar o POQT, basta se registrar pelo nosso site. Após o registro, você receberá uma mensagem diretamente no seu WhatsApp do nosso assistente virtual, que irá guiá-lo através do processo de configuração. A partir daí, você poderá começar a registrar seus gastos e receitas de forma simples e prática, como se estivesse conversando com um amigo!</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><strong>O que o POQT faz exatamente?</strong></div>
+          <div class="faq-answer">Integrado diretamente ao WhatsApp, o POQT permite que você registre todos os seus gastos e receitas de forma simples e intuitiva. Além disso, nossa plataforma oferece insights personalizados para ajudar você a melhorar sua organização financeira e promover o crescimento do seu patrimônio.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">Meus dados estão seguros?</div>
+          <div class="faq-answer">Absolutamente. O POQT utiliza criptografia de ponta a ponta e segue rigorosas políticas de privacidade para proteger suas informações.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><strong>Porque escolher o POQT?</strong></div>
+          <div class="faq-answer">O POQT é uma solução única de gestão financeira que transforma a maneira como você lida com seu dinheiro. Integrado diretamente ao WhatsApp, ele oferece uma experiência simples, prática e acessível, sem a necessidade de baixar novos aplicativos. Com insights personalizados e recursos inteligentes, o POQT não só ajuda você a registrar seus gastos e receitas, mas também a entender suas finanças de forma clara e objetiva. Tudo isso, enquanto você conversa com um assistente virtual como se fosse um amigo, garantindo que o controle financeiro nunca tenha sido tão fácil e conveniente.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato">
+      <div class="container">
+        <h2>Entre em Contato</h2>
+        <p>Estamos localizados em São Paulo, Brasil. Para suporte, entre em contato pelo WhatsApp: +55 11 99999-9999</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="floatingRegister">
+    <h3>Registre-se</h3>
+    <form id="floatingRegisterForm">
+      <input type="text" id="floatingName" name="name" placeholder="Nome" required="">
+      <input type="tel" id="floatingPhone" name="phone" placeholder="Celular" required="">
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Smooth scrolling
+      $('a[href^="#"]').on('click', function(event) {
+        var target = $(this.getAttribute('href'));
+        if (target.length) {
+          event.preventDefault();
+          $('html, body').stop().animate({
+            scrollTop: target.offset().top
+          }, 1000);
+        }
+      });
+
+      // FAQ toggle
+      $('.faq-question').click(function() {
+        var $answer = $(this).next('.faq-answer');
+        var $item = $(this).parent('.faq-item');
+        
+        if ($item.hasClass('open')) {
+          $answer.slideUp();
+          $item.removeClass('open');
+        } else {
+          $('.faq-item.open .faq-answer').slideUp();
+          $('.faq-item.open').removeClass('open');
+          $answer.slideDown();
+          $item.addClass('open');
+        }
+      });
+
+      // Mostrar janela flutuante de registro
+      $('#showRegisterBtn').click(function(e) {
+        e.preventDefault();
+        $('#floatingRegister').fadeIn();
+      });
+
+      // Floating register window
+      var $floatingRegister = $('#floatingRegister');
+      var lastScrollTop = 0;
+
+      $(window).scroll(function() {
+        var st = $(this).scrollTop();
+        if (st > lastScrollTop) {
+          // Scrolling down
+          $floatingRegister.css('opacity', '0.3');
+        } else {
+          // Scrolling up
+          $floatingRegister.css('opacity', '1');
+        }
+        lastScrollTop = st;
+      });
+
+      $floatingRegister.hover(
+        function() { $(this).css('opacity', '1'); },
+        function() { if ($(window).scrollTop() > lastScrollTop) $(this).css('opacity', '0.3'); }
+      );
+
+      $('#floatingRegisterForm').submit(function(e) {
+        e.preventDefault();
+        var name = $('#floatingName').val();
+        var phone = $('#floatingPhone').val();
+        alert('Obrigado por se registrar, ' + name + '! Entraremos em contato pelo número ' + phone);
+        $(this).trigger('reset');
+      });
+
+      // Fechar janela flutuante de registro
+      $('#closeFloatingRegister').click(function() {
+        $('#floatingRegister').fadeOut();
+      });
+
+      // Dark mode toggle
+      $('#darkModeToggle').click(function() {
+        $('body').toggleClass('dark-mode');
+        if ($('body').hasClass('dark-mode')) {
+          $(this).text('Modo Claro');
+        } else {
+          $(this).text('Modo Escuro');
+        }
+      });
+
+      // Touch friendly FAQ
+      $('.faq-question').on('touchstart', function() {
+        $(this).next('.faq-answer').slideToggle();
+      });
+    });
+  </script>
+
+</body></html>
